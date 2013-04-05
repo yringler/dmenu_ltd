@@ -1,0 +1,61 @@
+Copyright 2013 Yehuda Ringler - GNU General Public License v3.
+Usage of the dmenu_ltd (ltd=limited) suite
+
+(This might look a bit long, but its really very simple. Seriously.)
+(Limited as in number of programs displayed.)
+
+
+Conceptual Overview
+
+dmenu is totally awesome. But the default dmenu_run goes through *all* programs, including command line. This is not a problem - it is part of the simplicity of design that dmenu and suckless tools are all about. But having command line programs displayed also can be the cause of a few extra key strokes to get to the program you want to run, and the overwellming majority (except for poweroff on some systems or eject and other programs that do stuff with no need for command line arguments or reading stdout ) of course don't function.
+	
+dmenu_ltd was written to change that (drum roll, please). dmenu_ltd scans the directory containing the <application>.desktop files and creates two things. 
+	1) a simple, searchable list, like the classic dmenu_run, except with only gui programs shown and run with the correct arguments, as specified in the <>.desktop file.
+	2) a ***categorical***menu*** (yay!). Never again will you be stymied late at night by not being able to remember the name of that text editor! a categorical menu is here!
+
+
+The Commands 
+
+dmenu_ltd_update.sh - Running dmenu_ltd_update.sh creates the two menus. It must be run when ever a new gui program is installed or a custom file is added or the destroy.txt is changed (more about that later). If any required files/folders are missing, creates them (this, too, will be explained).
+
+dmenu_ltd_run.sh - "K'sh'mo ken hu" (hebrew) - "As its name, so it is". It runs the simple list. All command line arguments are passed to dmenu. The was added primarily to be able to specify the font to use ( -fn <that long xfontsel -print name thing> ), but to that end all arguments are accepted.
+
+dmenu_ltd_cat_run.sh - cat is for catagory. This is the categorical menu. When it is run, the categories are listed across the screen (all upper case { not my decision, thats just how they show up in the .desktop file, and I didn't see any reason to change it} , so the -i flag is passed to dmenu to ignore case in the search so you don't have to hit shift every time). When a category is selected, all (I hope) programs of that category are listed across the screen. The last item is always "back". Hitting escape, even in program list, terminates the run.
+
+
+The Configuration Files
+
+(This is also very simple stuff. Relax. Then again, if youre using dmenu I don't have to worry so much.)
+(/etc/dmenu_ltd.cfg can be used to change where most of this stuff goes . Here I talk about the defaults)
+
+Overview
+
+Here's a list of all the stuff:
+	~/.dmenu_ltd
+		destroy.txt  --> default from /usr/share/dmenu_ltd/destroy.txt
+		/custom
+		/auto
+			ltd_menu.txt  --> not a config file, over written 
+			exec.sh  --> not a config file, over written 
+			/categories
+(yes, stuff is added to categories and ltd_menu.txt based on stuff in custom)
+
+Explanation
+
+~/.dmenu_ltd/destroy.txt should list all categories that you don't want cluttering dmenu_ltd_cat_run.sh. Will not be overwritten, except by a bug.
+
+The Custom Folder
+
+~/.dmenu_ltd/custom is for any programs that
+	a) you want to add that don't show up by default (e.g. something to shutdown the computer, or for xman and family which at least on slitaz don't have a .desktop file) , or 
+	b) over-ride a program to give preffered effect, for example run pcmanfm with --no-desktop, if it doesn't say that in the .desktop file (in slitaz doesn't. Did I mention that I use slitaz?)
+
+	Usage: Create a file in the custom folder whose name is the name of the menu item that should be added || over-ridden. The file should (must?) be an executable shell script. 
+
+If you want it to show up in the catagorical dmenu_ltd, put a line in it like this:
+# Categories=Games;Stuff
+or 
+		   ##   ## ### 		Categories=Whatever;Random
+etc. A ; must seperate categories. I'm not picky untill you hit "Categories=" - The generate script isn't written to support spaces, e.g.  Categories = Whatever; Random ;the other ; last . It might work. Maybe.
+
+	The script should run the command that you want that menu item to run. You probably guessed that.
