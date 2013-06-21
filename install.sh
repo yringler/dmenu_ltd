@@ -9,4 +9,4 @@ install -d /usr/share/dmenu_ltd/
 install   src/destroy.txt  /usr/share/dmenu_ltd/
 
 install -d /usr/share/doc/dmenu_ltd/
-install   USAGE  /usr/share/doc/dmenu_ltd/
+install   README  /usr/share/doc/dmenu_ltd/
