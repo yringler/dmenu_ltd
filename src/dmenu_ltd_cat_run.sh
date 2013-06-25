@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #Copyright 2013 Yehuda Ringler - GNU General Public License v3.
 # This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
