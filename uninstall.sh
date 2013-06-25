@@ -6,3 +6,4 @@ rm /usr/bin/dmenu_ltd_run.sh
 rm /usr/bin/dmenu_ltd_cat_run.sh
 rm -r /usr/share/dmenu_ltd/
 rm -r /usr/share/doc/dmenu_ltd/
+rm /etc/dmenu_ltd.cfg

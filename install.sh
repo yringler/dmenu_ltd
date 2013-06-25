@@ -10,3 +10,5 @@ install   src/destroy.txt  /usr/share/dmenu_ltd/
 
 install -d /usr/share/doc/dmenu_ltd/
 install   README  /usr/share/doc/dmenu_ltd/
+
+install src/dmenu_ltd.cfg /etc/
