@@ -124,19 +124,25 @@ function check_categories {
 	missing_list=`mktemp`
 
 	cat $auto_dir/categories/* | sort | uniq > $cur_list
+	# grep -l: print name of file, which is name of program
 	grep -l Categories $appinfo/*.desktop $custom_dir/* \
 		| sed $clear_path_desktop | sort | uniq \
 		> $should_list
-	diff $cur_list $should_list -U 0 > $missing_list
+	diff -U 0 $cur_list $should_list > $missing_list
 
-	if ! [ $(wc -l $missing_list | cut -d ' ' -f 1) -gt  3 ]; 
+	if [ $(wc -l $missing_list | cut -d ' ' -f 1) -gt  0 ]; 
 	then 
-		mv $missing_list ~/${missing_list##.*/}
+		mv $missing_list ~/missing_list
 		cat << EOF
-Look in ~/${missing_list##.*/} for a list of programs that should show in dmenu_ltd_cat_run.sh but do not.
+Look in ~/missing_list for a list of programs that 
+should show in dmenu_ltd_cat_run.sh but do not.
 Example of how to correct: 
-If firefox is shown as missing, open $appinfo/firefox.desktop. Go to the line beggining with the word Categories. Remove at least one word in the ; seperated list from the $dmenu_ltd_dir/destroy.txt.
-If you can't find the file in $appinfo (in this example thats unlikely in most circumstances) look for $custom_dir/firefox
+If firefox is shown as missing, open $appinfo/firefox.desktop
+Go to the line beggining with the word Categories. 
+Remove at least one word in the ; seperated list from the 
+$dmenu_ltd_dir/destroy.txt
+If you can't find the file in $appinfo (in this example thats unlikely 
+in most circumstances) look for $custom_dir/firefox
 Then run me again.
 If its not there either, then theres a bug over here somewhere. Oops.
 EOF
