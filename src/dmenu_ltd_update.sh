@@ -125,8 +125,9 @@ function check_categories {
 
 	cat $auto_dir/categories/* | sort | uniq > $cur_list
 	# grep -l: print name of file, which is name of program
+	# the -e clears path from customdir applications
 	grep -l Categories $appinfo/*.desktop $custom_dir/* \
-		| sed $clear_path_desktop | sort | uniq \
+		| sed $clear_path_desktop -e "s/.*custom\///" | sort | uniq \
 		> $should_list
 	diff -U 0 $cur_list $should_list > $missing_list
 
