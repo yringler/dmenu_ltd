@@ -34,7 +34,7 @@ clear_path_desktop="-e s|.*/\(.*\)\.desktop|\1|"
 gen_exec () {
 	cd $auto_dir
 	printf "#!/bin/sh\n" > $auto_exec
-	printf 'case $1 in' >> $auto_exec
+	printf 'case $1 in\n' >> $auto_exec
 
 	## the last two -e are for special cases: the first for ""%f"" or %t
 	#  which are part of the .desktop specification, but I have no use for.
