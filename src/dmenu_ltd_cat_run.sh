@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #Copyright 2013 Yehuda Ringler - GNU General Public License v3.
 # This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -25,10 +25,10 @@ do
 	# if the user hit escape while dmenu was running
 	if [ ! $menu ]; then exit 0; fi
 
-	command=$((cat $auto_dir/categories/$menu; echo back) | dmenu $@)
+	command=$( (cat $auto_dir/categories/$menu; echo back) | dmenu $@)
 	if [ ! $command ]; then
 		exit 0
-	elif [ $command == back ]; then
+	elif [ $command = back ]; then
 		# re-display categories
 		continue
 	else
