@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 # Copyright 2013 Yehuda Ringler - GNU General Public License v3.
 # This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -31,10 +31,10 @@ clear_path_desktop="-e s|.*/\(.*\)\.desktop|\1|"
 
 # I only need to do this for the menu items generated from $appinfo
 # But the stuff in custom_dir runs itself
-function gen_exec {
+gen_exec () {
 	cd $auto_dir
-	echo -e "#!/bin/bash\n" > $auto_exec
-	echo -e 'case $1 in' >> $auto_exec
+	printf "#!/bin/sh\n" > $auto_exec
+	printf 'case $1 in' >> $auto_exec
 
 	## the last two -e are for special cases: the first for ""%f"" or %t
 	#  which are part of the .desktop specification, but I have no use for.
@@ -52,7 +52,7 @@ function gen_exec {
 	chmod +x $auto_exec
 }
 
-function dmenu_ltd_update {
+dmenu_ltd_update () {
 	## if ls . and appinfo in one shot, extra stuff is printed 
 	#  dividing the folders, which will end up in the menu
 	(ls -1 $custom_dir; ls -1 $appinfo/*.desktop) \
@@ -61,7 +61,7 @@ function dmenu_ltd_update {
 
 # (note:sort_categories ensures that an over-ride in custom_dir
 # won't result in a menu-item being doubled)
-function dmenu_ltd_cat_update {
+dmenu_ltd_cat_update () {
 	# my fear of rm is evident here
 	rm -r $auto_dir/categories 2>&-
 	mkdir $auto_dir/categories
@@ -98,12 +98,12 @@ function dmenu_ltd_cat_update {
 		-e "s/\(^[^ ]*\)/echo \1 | tee -a/" | sh >&-
 }
 
-function remove_extra_categories {
+remove_extra_categories () {
 	cd $auto_dir/categories
 	rm -f `cat $dmenu_ltd_dir/destroy.txt`
 }
 
-function sort_categories {
+sort_categories () {
 	# there has to be a cleaner way of doing this ...
 	cd $auto_dir/categories
 	tmp=`mktemp`
@@ -116,7 +116,7 @@ function sort_categories {
 
 # print name of any programs that have a Category line in their .desktop file
 # but do not show up in categories.
-function check_categories {
+check_categories () {
 	# list of all programs that currently appear in the menu
 	cur_list=`mktemp`
 	# list of those which *should* appear
